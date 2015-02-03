@@ -1,0 +1,5 @@
+/usr/bin/touch /tmp/usbin.lock
+/usr/bin/mkdir -p /mnt/grablog_ball
+/usr/bin/mount /dev/sdc1 /mnt/grablog_ball
+/usr/bin/cp -r /var/log/mariadb/ /mnt/grablog_ball
+
