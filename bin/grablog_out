@@ -1,3 +1,4 @@
 /usr/bin/umount /mnt/grablog_ball
+/usr/bin/rmdir /mnt/grablog_ball
 /usr/bin/rm -f /tmp/usbin.lock
 
