@@ -1,3 +1,16 @@
+#SUBSYSTEM=="block", KERNEL=="sd*1", ACTION=="add", RUN+="/usr/bin/touch /tmp/usbin.lock"
+#SUBSYSTEM=="block", KERNEL=="sd*1", ACTION=="add", RUN+="/bin/mkdir -p /mnt/grablog"
+#SUBSYSTEM=="block", KERNEL=="sd*1", ACTION=="add", RUN+="/bin/mount -t auto -o rw,noasync,noatime,dirsync /dev/%k /mnt/grablog"
+#SUBSYSTEM=="block", KERNEL=="sd*1", ACTION=="add", RUN+="/bin/cp -r /var/log/ /mnt/grablog"
+#SUBSYSTEM=="block", KERNEL=="sd*1", ACTION=="add", RUN+="/bin/cp -r /tmp/soslog/ /mnt/grablog" 
+#SUBSYSTEM=="block", KERNEL=="sd*1", ACTION=="add", RUN+="/bin/cp -r /tmp/sospart/ /mnt/grablog"
 
-SUBSYSTEM=="block", KERNEL=="sd*1", ACTION=="add", RUN="/usr/bin/grablog_in"
-SUBSYSTEM=="block", KERNEL=="sd*1", ACTION=="remove", RUN="/usr/bin/grablog_out"
+SUBSYSTEM=="block", KERNEL=="sd*1", ACTION=="add", PROGRAM="/usr/bin/grablog_in %k"
+
+#SUBSYSTEM=="block", KERNEL=="sd*1", ACTION=="remove", RUN+="/bin/umount /mnt/grablog"
+#SUBSYSTEM=="block", KERNEL=="sd*1", ACTION=="remove", RUN+="/bin/rmdir /mnt/grablog"
+#SUBSYSTEM=="block", KERNEL=="sd*1", ACTION=="remove", RUN+="/bin/rm -f /tmp/usbin.lock"
+
+
+SUBSYSTEM=="block", KERNEL=="sd*1", ACTION=="remove", PROGRAM="/usr/bin/grablog_out"
+
