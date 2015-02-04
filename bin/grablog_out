@@ -1,4 +1,15 @@
-/usr/bin/umount /mnt/grablog_ball
-/usr/bin/rmdir /mnt/grablog_ball
-/usr/bin/rm -f /tmp/usbin.lock
+#!/bin/bash
 
+target="/mnt/grablog"
+guarder="/tmp/grablog.lock"
+
+function cleanup
+{
+    umount $target
+    rmdir $target
+    rm -f $guarder
+}
+
+cleanup
+
+exit 1
