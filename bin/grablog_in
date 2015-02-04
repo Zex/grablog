@@ -1,5 +1,45 @@
-/usr/bin/touch /tmp/usbin.lock
-/usr/bin/mkdir -p /mnt/grablog_ball
-/usr/bin/mount /dev/sdc1 /mnt/grablog_ball
-/usr/bin/cp -r /var/log/mariadb/ /mnt/grablog_ball
+#!/bin/bash
+
+[ -z $1 ] && exit 0
+
+target_dev="/dev/"$1
+target="/mnt/grablog"
+guarder="/tmp/grablog.lock"
+mark_file="/mnt/grablog/DELLSUPPORT"
+
+log_list="
+/var/log
+/tmp/soslog
+"
+
+function cleanup
+{
+    umount $target
+    rmdir $target
+    rm $guarder
+}
+
+
+function prepare
+{
+    touch $guarder
+    mkdir -p $target
+    mount -t auto -o rw,noasync,noatime,dirsync $target_dev $target
+}
+
+function copy_log
+{
+    for log in $log_list
+    do
+        cp -r $log $target
+    done
+}
+
+prepare
+
+[ ! -f "$mark_file" ] && cleanup && exit 0
+
+copy_log
+
+exit 1
 
